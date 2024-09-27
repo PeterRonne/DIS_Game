@@ -24,13 +24,10 @@ public class Gui extends Application {
 	public static Image image_floor;
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
-
 	
 
 	private static Label[][] fields;
 	private TextArea scoreList;
-	
-
 
 	
 	// -------------------------------------------
@@ -156,6 +153,10 @@ public class Gui extends Application {
 			});
 	}
 	public void playerMoved(int delta_x, int delta_y, String direction) {
+
+		System.out.println("Delta X: " + delta_x + " Delta Y: " + delta_y + " Direction: " + direction);
+		GameManager.requestMove(delta_x, delta_y, direction); // this only seems to run once
+
 		GameLogic.updatePlayer(delta_x,delta_y,direction);
 		updateScoreTable();
 	}
