@@ -26,16 +26,16 @@ public class ServerThread extends Thread {
                         StringBuilder builder = new StringBuilder();
                         List<ServerPlayer> players = GameLogic.getCurrentPlayers();
                         for (ServerPlayer player : players) {
-                            builder.append(player.toString()).append("/");
+                            builder.append(player.toString()).append("#");
                         }
-                        outToClient.writeBytes("gamestate" + "," + builder.toString() + '\n');
+                        outToClient.writeBytes("gamestate" + "/" + builder.toString() + '\n');
                     }
                     break;
                     case "addplayer": {
                         String name = messageSplit[1];
                         ServerPlayer player = GameLogic.addPlayerToGame(name);
                         System.out.println("[SERVER] Added new player, " + name + "\n");
-                        Server.sendUpdateToAll("addplayer," + player.toString());
+                        Server.sendUpdateToAll("addplayer" + "/" + player.toString());
                     }
                     break;
                     case "moveplayer": {

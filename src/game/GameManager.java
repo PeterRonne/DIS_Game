@@ -61,43 +61,45 @@ public class GameManager {
 
     public static void update(String serverMessage) {
         System.out.println(serverMessage);
-        String[] serverMessageSplit = serverMessage.split(",");
+        String[] serverMessageSplit = serverMessage.split("/");
         String updateType = serverMessageSplit[0];
 
         switch (updateType) {
             case "gamestate": {
                 System.out.println("Get current gamestate");
-                String[] incomingPlayers = serverMessageSplit[1].split("/");
+                String[] incomingPlayers = serverMessageSplit[1].split("#");
+                System.out.println("Incomming players" + incomingPlayers.toString());
                 for (String player : incomingPlayers) {
                     String[] playerAttributes = player.split(",");
                     String name = playerAttributes[0];
-                    players.put(name, 0); // Score is zero for now but should be the players current score
+                    players.put(name, 0); // Score is zero for now but should be the player current score
                     int x_position = Integer.parseInt(playerAttributes[1]);
                     int y_position = Integer.parseInt(playerAttributes[2]);
                     String direction = playerAttributes[3];
                     Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
                 }
             }
-
             case "addplayer": {
                 System.out.println("player added");
-                String name = serverMessageSplit[1];
+                String[] player = serverMessageSplit[1].split(",");
+                String name = player[0];
                 players.put(name, 0); // Player name and initial score
-                int x_position = Integer.parseInt(serverMessageSplit[2]);
-                int y_position = Integer.parseInt(serverMessageSplit[3]);
-                String direction = serverMessageSplit[4];
+                int x_position = Integer.parseInt(player[1]);
+                int y_position = Integer.parseInt(player[2]);
+                String direction = player[3];
                 Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
             }
             break;
             case "moveplayer": {
                 System.out.println("player moved");
-                int old_x_position = Integer.parseInt(serverMessageSplit[1]);
-                int old_y_position = Integer.parseInt(serverMessageSplit[2]);
+                String[] updatedMoves = serverMessageSplit[1].split(",");
+                int old_x_position = Integer.parseInt(updatedMoves[0]);
+                int old_y_position = Integer.parseInt(updatedMoves[1]);
                 Pair oldpos = new Pair(old_x_position, old_y_position);
-                int new_x_position = Integer.parseInt(serverMessageSplit[3]);
-                int new_y_position = Integer.parseInt(serverMessageSplit[4]);
+                int new_x_position = Integer.parseInt(updatedMoves[2]);
+                int new_y_position = Integer.parseInt(updatedMoves[3]);
                 Pair newpos = new Pair(new_x_position, new_y_position);
-                String direction = serverMessageSplit[5];
+                String direction = updatedMoves[4];
                 Gui.movePlayerOnScreen(oldpos, newpos, direction);
             }
             break;
