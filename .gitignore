@@ -30,3 +30,5 @@ bin/
 
 #Ignore the IntelliJ project file
 DIS_Game.iml
+.idea/workspace.xml
+.idea/*
