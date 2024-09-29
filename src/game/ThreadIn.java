@@ -21,7 +21,7 @@ public class ThreadIn extends Thread {
     @Override
     public void run() {
         try {
-            sleep(2000);
+            sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

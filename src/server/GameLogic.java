@@ -13,7 +13,7 @@ public class GameLogic {
     public static ServerPlayer me;
 
 
-    public static ServerPlayer addPlayerToGame(String name) {
+    public synchronized static ServerPlayer addPlayerToGame(String name) {
         Pair pair = getRandomFreePosition();
         System.out.println("[SERVER] Player added at position X: " + pair.x + " Y: " + pair.y);
         ServerPlayer player = new ServerPlayer(name, pair);
@@ -53,7 +53,7 @@ public class GameLogic {
         return p;
     }
 
-    public static void updatePlayer(String name, int delta_x, int delta_y, String direction) {
+    public synchronized static void updatePlayer(String name, int delta_x, int delta_y, String direction) {
         ServerPlayer player = players.get(name);
         if (player == null) {
             throw new IllegalArgumentException("No player to update");

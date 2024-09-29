@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="connection between server and client established">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/ClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/ConcurrentArrayList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/GameLogic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/General.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/ServerPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/ThreadIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/ThreadIn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Pair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ServerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/TCPClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/common.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +91,8 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.Server" />
         <item itemvalue="Application.App" />
         <item itemvalue="Application.Server" />
       </list>
