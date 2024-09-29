@@ -27,7 +27,8 @@ public class ThreadIn extends Thread {
         }
         while(!clientSocket.isClosed()) {
             try {
-                GameManager.update(inFromServer.readLine());
+                String serverMessage = inFromServer.readLine();
+                GameManager.update(serverMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

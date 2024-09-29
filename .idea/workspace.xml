@@ -4,17 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="Added server skeleton">
-      <change afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/ThreadIn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="connection between server and client established">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/ClientHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/ConcurrentArrayList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/GameLogic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/General.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/Pair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/ServerPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Gui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/ThreadIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/ThreadIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Pair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/TCPClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/common.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,9 +45,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2mdyu8y9Zqk6h4ribceP8IjJBVa" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -52,14 +61,59 @@
     "Application.Server.executor": "Run",
     "Application.TCPClient.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "feature",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/peter/Desktop/3.Semester/Distribution, integration og sikkerhed/Lektion 4, 5 - Workshop i socket-programmering/Talk23s_Version 3.0",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "advanced.settings"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="server" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="game.App" />
+      <module name="DIS_Game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.Server" />
+      <module name="DIS_Game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.App" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.Server" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,12 +139,32 @@
       <option name="project" value="LOCAL" />
       <updated>1727422184938</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="connection between server and client established">
+      <option name="closed" value="true" />
+      <created>1727468331362</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1727468331362</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
     <MESSAGE value="Added server skeleton" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added server skeleton" />
+    <MESSAGE value="connection between server and client established" />
+    <option name="LAST_COMMIT_MESSAGE" value="connection between server and client established" />
   </component>
 </project>

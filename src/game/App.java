@@ -9,12 +9,12 @@ public class App {
     public static void main(String[] args) throws Exception {
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Indtast spillernavn");
-//        String navn = inFromUser.readLine();
+        String name = inFromUser.readLine();
         Socket clientSocket = new Socket("localhost", 6789);
         GameManager.initializeConnection(clientSocket);
-
-        GameLogic.makePlayers("Peter");
+        GameManager.setPlayerName(name);
+        GameManager.requestAddPlayer();
+        GameLogic.makePlayers("OldPeter");
         Application.launch(Gui.class);
     }
 }
-;

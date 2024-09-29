@@ -1,15 +1,15 @@
-package game;
+package server;
 
-public class Player {
+public class ServerPlayer {
     String name;
     Pair location;
     int point;
     String direction;
 
-    public Player(String name, Pair loc, String direction) {
+    public ServerPlayer(String name, Pair loc) {
         this.name = name;
         this.location = loc;
-        this.direction = direction;
+        this.direction = getRandomDirection();
         this.point = 0;
     }
 
@@ -49,7 +49,18 @@ public class Player {
         point += p;
     }
 
+    public String getRandomDirection() {
+        int n = (int) (Math.random() * 4);
+        switch (n) {
+            case 0: return "up";
+            case 1: return "down";
+            case 2: return "left";
+            case 3: return "right";
+            default: return "up";
+        }
+    }
+
     public String toString() {
-        return name + ":   " + point;
+        return name + "," + location.x + "," + location.y + "," + direction;
     }
 }

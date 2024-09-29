@@ -1,18 +1,34 @@
 package server;
 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Server {
-	/**
-	 * @param args
-	 */
+	private static final List<ClientHandler> clientHandlers = new ArrayList<>();
+	
 	public static void main(String[] args)throws Exception {
-		common c = new common("eksempel");
 		ServerSocket welcomeSocket = new ServerSocket(6789);
-		while (true) {
+		while (!welcomeSocket.isClosed()) {
 			System.out.println("[SERVER] Waiting for connection...");
 			Socket connectionSocket = welcomeSocket.accept();
+			addClientHandler(new ClientHandler(connectionSocket));
 			System.out.println("[SERVER] Connection accepted.");
-			(new ServerThread(connectionSocket,c)).start();
+			(new ServerThread(connectionSocket)).start();
+		}
+	}
+
+	public static void addClientHandler(ClientHandler clientHandler) {
+		clientHandlers.add(clientHandler);
+	}
+
+	public static void removeClient(ClientHandler clientHandler) {
+		clientHandlers.remove(clientHandler);
+	}
+	
+	public static void sendUpdateToAll(String update) {
+		for (ClientHandler clientHandler : clientHandlers) {
+			clientHandler.receiveMessage(update);
 		}
 	}
 
