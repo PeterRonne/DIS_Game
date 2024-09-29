@@ -18,7 +18,9 @@ public class ServerThread extends Thread {
             String newPlayerName = inFromClient.readLine();
             ServerPlayer player = GameLogic.addPlayerToGame(newPlayerName);
             System.out.println("[SERVER] Added new player, " + newPlayerName + "\n");
-            outToClient.writeBytes("addplayer," + player.toString() + "\n");
+//            outToClient.writeBytes("addplayer," + player.toString() + "\n");
+
+            Server.sendUpdateToAll("addplayer," + player.toString());
 
             String message;
             while ((message = inFromClient.readLine()) != null) {

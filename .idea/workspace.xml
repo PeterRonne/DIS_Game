@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="connection between server and client established">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +96,7 @@
         <item itemvalue="Application.Server" />
         <item itemvalue="Application.App" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -131,7 +133,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727468331362</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="synchronized gamelogic class">
+      <option name="closed" value="true" />
+      <created>1727604066825</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727604066825</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -149,6 +159,7 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="Added server skeleton" />
     <MESSAGE value="connection between server and client established" />
-    <option name="LAST_COMMIT_MESSAGE" value="connection between server and client established" />
+    <MESSAGE value="synchronized gamelogic class" />
+    <option name="LAST_COMMIT_MESSAGE" value="synchronized gamelogic class" />
   </component>
 </project>

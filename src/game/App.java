@@ -10,11 +10,11 @@ public class App {
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Indtast spillernavn");
         String name = inFromUser.readLine();
-        Socket clientSocket = new Socket("localhost", 6789);
+        Socket clientSocket = new Socket("192.168.86.157", 6789);
         GameManager.initializeConnection(clientSocket);
         GameManager.setPlayerName(name);
         GameManager.requestAddPlayer();
-        GameLogic.makePlayers("OldPeter");
+//        GameLogic.makePlayers("OldPeter");
         Application.launch(Gui.class);
     }
 }
