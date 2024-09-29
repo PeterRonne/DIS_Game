@@ -19,6 +19,12 @@ public class GameLogic {
         players.add(harry);
     }
 
+    public static void createDefaultPlayers() {
+        Pair pair = getRandomFreePosition();
+        Player harry = new Player("Kaj", pair, "up");
+        players.add(harry);
+    }
+
     public static Pair getRandomFreePosition()
     // finds a random new position which is not wall
     // and not occupied by other players

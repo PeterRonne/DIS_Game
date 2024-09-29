@@ -27,13 +27,18 @@ public class GameManager {
         threadIn.start();
     }
 
-    public static void requestAddPlayer() {
+    public static void requestAddPlayer(String playerName) {
         try {
-            outToServer.writeBytes(playerName + "\n");
+            outToServer.writeBytes("addplayer" + "," + playerName + "\n");
             outToServer.flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to add player", e);
         }
+    }
+
+    public static void createDefaultPlayers() {
+        players.put("harry", 0);
+        requestAddPlayer("harry");
     }
 
     public static void requestMove(int delta_x, int delta_y, String direction) {

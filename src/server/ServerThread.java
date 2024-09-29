@@ -13,14 +13,7 @@ public class ServerThread extends Thread {
     public void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
-            DataOutputStream outToClient = new DataOutputStream(connSocket.getOutputStream());
-
-            String newPlayerName = inFromClient.readLine();
-            ServerPlayer player = GameLogic.addPlayerToGame(newPlayerName);
-            System.out.println("[SERVER] Added new player, " + newPlayerName + "\n");
-//            outToClient.writeBytes("addplayer," + player.toString() + "\n");
-
-            Server.sendUpdateToAll("addplayer," + player.toString());
+//            DataOutputStream outToClient = new DataOutputStream(connSocket.getOutputStream());
 
             String message;
             while ((message = inFromClient.readLine()) != null) {
@@ -28,6 +21,13 @@ public class ServerThread extends Thread {
                 String[] messageSplit = message.split(",");
                 String request = messageSplit[0];
                 switch (request) {
+                    case "addplayer": {
+                        String name = messageSplit[1];
+                        ServerPlayer player = GameLogic.addPlayerToGame(name);
+                        System.out.println("[SERVER] Added new player, " + name + "\n");
+                        Server.sendUpdateToAll("addplayer," + player.toString());
+                    }
+                    break;
                     case "moveplayer": {
                         String name = messageSplit[1];
                         int delta_x = Integer.parseInt(messageSplit[2]);
@@ -37,8 +37,6 @@ public class ServerThread extends Thread {
                     }
                     break;
                 }
-
-
             }
 
         } catch (IOException e) {
