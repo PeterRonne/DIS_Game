@@ -96,5 +96,9 @@ public class GameLogic {
         return null;
     }
 
+    public static List<ServerPlayer> getCurrentPlayers() {
+        return new ArrayList<>(players.values());
+    }
+
 
 }

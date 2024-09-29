@@ -41,6 +41,15 @@ public class GameManager {
         requestAddPlayer("harry");
     }
 
+    public static void requestGameState() {
+        try {
+            outToServer.writeBytes("gamestate" + "\n");
+            outToServer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to request game state", e);
+        }
+    }
+
     public static void requestMove(int delta_x, int delta_y, String direction) {
         try {
             outToServer.writeBytes("moveplayer" + "," + playerName + "," + delta_x + "," + delta_y + "," + direction + "\n");
@@ -56,6 +65,20 @@ public class GameManager {
         String updateType = serverMessageSplit[0];
 
         switch (updateType) {
+            case "gamestate": {
+                System.out.println("Get current gamestate");
+                String[] incomingPlayers = serverMessageSplit[1].split("/");
+                for (String player : incomingPlayers) {
+                    String[] playerAttributes = player.split(",");
+                    String name = playerAttributes[0];
+                    players.put(name, 0); // Score is zero for now but should be the players current score
+                    int x_position = Integer.parseInt(playerAttributes[1]);
+                    int y_position = Integer.parseInt(playerAttributes[2]);
+                    String direction = playerAttributes[3];
+                    Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
+                }
+            }
+
             case "addplayer": {
                 System.out.println("player added");
                 String name = serverMessageSplit[1];

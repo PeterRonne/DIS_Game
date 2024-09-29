@@ -12,9 +12,10 @@ public class App {
         String name = inFromUser.readLine();
         Socket clientSocket = new Socket("192.168.86.157", 6789);
         GameManager.initializeConnection(clientSocket);
+        GameManager.requestGameState();
         GameManager.setPlayerName(name);
         GameManager.requestAddPlayer(name);
-        GameManager.createDefaultPlayers();
+//        GameManager.createDefaultPlayers();
 //        GameLogic.makePlayers("OldPeter");
         Application.launch(Gui.class);
     }

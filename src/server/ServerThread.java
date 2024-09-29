@@ -2,6 +2,7 @@ package server;
 
 import java.net.*;
 import java.io.*;
+import java.util.List;
 
 public class ServerThread extends Thread {
     private final Socket connSocket;
@@ -13,7 +14,7 @@ public class ServerThread extends Thread {
     public void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
-//            DataOutputStream outToClient = new DataOutputStream(connSocket.getOutputStream());
+            DataOutputStream outToClient = new DataOutputStream(connSocket.getOutputStream());
 
             String message;
             while ((message = inFromClient.readLine()) != null) {
@@ -21,6 +22,15 @@ public class ServerThread extends Thread {
                 String[] messageSplit = message.split(",");
                 String request = messageSplit[0];
                 switch (request) {
+                    case "gamestate": {
+                        StringBuilder builder = new StringBuilder();
+                        List<ServerPlayer> players = GameLogic.getCurrentPlayers();
+                        for (ServerPlayer player : players) {
+                            builder.append(player.toString()).append("/");
+                        }
+                        outToClient.writeBytes("gamestate" + "," + builder.toString() + '\n');
+                    }
+                    break;
                     case "addplayer": {
                         String name = messageSplit[1];
                         ServerPlayer player = GameLogic.addPlayerToGame(name);
