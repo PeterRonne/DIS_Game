@@ -37,9 +37,12 @@ public class GameManager {
         }
     }
 
-    public static void createDefaultPlayers() {
-        players.put("harry", 0);
-        requestAddPlayer("harry");
+    public static void requestRemovePlayer() {
+        try {
+            outToServer.writeBytes("removeplayer" + "," + playerName + "\n");
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to remove player", e);
+        }
     }
 
     public static void requestGameState() {
@@ -90,6 +93,9 @@ public class GameManager {
                 int y_position = Integer.parseInt(player[2]);
                 String direction = player[3];
                 Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
+            }
+            case "removeplayer": {
+                System.out.println("player removed, " + playerName);
             }
             break;
             case "moveplayer": {

@@ -97,7 +97,7 @@ public class Gui extends Application {
 				case LEFT:  playerMoved(-1,0,"left");  break;
 				case RIGHT: playerMoved(+1,0,"right"); break;
 				case SPACE: System.out.println("Space bar pressed"); break;
-				case ESCAPE:System.exit(0);
+				case ESCAPE:quitGame();
 				default: break;
 				}
 			});
@@ -110,6 +110,10 @@ public class Gui extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void quitGame() {
+		System.exit(0);
 	}
 
 	public static void removePlayerOnScreen(Pair oldpos) {
