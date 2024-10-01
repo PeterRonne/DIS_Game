@@ -84,6 +84,7 @@ public class GameManager {
                     Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
                 }
             }
+            break;
             case "addplayer": {
                 System.out.println("player added");
                 String[] player = serverMessageSplit[1].split(",");
@@ -94,6 +95,7 @@ public class GameManager {
                 String direction = player[3];
                 Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
             }
+            break;
             case "removeplayer": {
                 System.out.println("player removed");
                 int xPos = Integer.parseInt(serverMessageSplit[1]);
