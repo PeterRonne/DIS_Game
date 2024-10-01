@@ -103,5 +103,9 @@ public class GameLogic {
         return new ArrayList<>(players.values());
     }
 
+    public static ServerPlayer getPlayer(String name) {
+        return players.get(name);
+    }
+
 
 }

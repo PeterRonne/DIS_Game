@@ -22,8 +22,18 @@ public class Server {
 		clientHandlers.add(clientHandler);
 	}
 
-	public static void removeClient(ClientHandler clientHandler) {
+	public static void remover(ClientHandler clientHandler) {
 		clientHandlers.remove(clientHandler);
+	}
+
+	public static void removeClient(Socket conSocket) {
+		ClientHandler cl = null;
+		for (ClientHandler clientHandler : clientHandlers) {
+			if (clientHandler.getConnectionSocket() == conSocket) {
+				cl = clientHandler;
+			}
+		}
+		remover(cl);
 	}
 	
 	public static void sendUpdateToAll(String update) {

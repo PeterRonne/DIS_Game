@@ -95,7 +95,14 @@ public class GameManager {
                 Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
             }
             case "removeplayer": {
-                System.out.println("player removed, " + playerName);
+                System.out.println("player removed");
+                String[] playerInfo = serverMessageSplit[1].split(",");
+                int xPos = Integer.parseInt(playerInfo[0]);
+                int yPos = Integer.parseInt(playerInfo[1]);
+                String name = playerInfo[2];
+                players.remove(name);
+                Pair position = new Pair(xPos, yPos);
+                Gui.removePlayerOnScreen(position);
             }
             break;
             case "moveplayer": {

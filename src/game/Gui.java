@@ -113,6 +113,8 @@ public class Gui extends Application {
 	}
 
 	private void quitGame() {
+		GameManager.requestRemovePlayer();
+		updateScoreTable();
 		System.exit(0);
 	}
 
@@ -121,6 +123,8 @@ public class Gui extends Application {
 			fields[oldpos.getX()][oldpos.getY()].setGraphic(new ImageView(image_floor));
 			});
 	}
+
+
 
 	public static void placePlayerOnScreen(Pair newpos, String direction) {
 		Platform.runLater(() -> {

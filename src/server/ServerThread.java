@@ -38,6 +38,14 @@ public class ServerThread extends Thread {
                         Server.sendUpdateToAll("addplayer" + "/" + player.toString());
                     }
                     break;
+                    case "removeplayer": {
+                        String name = messageSplit[1];
+                        ServerPlayer player = GameLogic.getPlayer(name);
+                        int delta_x = player.getXpos();
+                        int delta_y = player.getYpos();
+                        Server.sendUpdateToAll("removeplayer" + "/" + delta_x + "," + delta_y + "," + name);
+                        Server.removeClient(connSocket);
+                    }
                     case "moveplayer": {
                         String name = messageSplit[1];
                         int delta_x = Integer.parseInt(messageSplit[2]);

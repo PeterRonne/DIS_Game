@@ -28,4 +28,8 @@ public class ClientHandler {
             throw new RuntimeException(e);
         }
     }
+
+    public Socket getConnectionSocket() {
+        return connectionSocket;
+    }
 }
