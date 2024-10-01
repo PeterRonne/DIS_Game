@@ -1,6 +1,7 @@
 package server;
 
 
+import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,9 @@ public class GameLogic {
         return player;
     }
 
+    public static void removePlayer(String name) {
+        players.remove(name);
+    }
     public static void addTestPlayers() {
         Pair pair = getRandomFreePosition();
         ServerPlayer test = new ServerPlayer("test", pair);
