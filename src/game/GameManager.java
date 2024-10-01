@@ -102,6 +102,9 @@ public class GameManager {
                 int new_y_position = Integer.parseInt(updatedMoves[3]);
                 Pair newpos = new Pair(new_x_position, new_y_position);
                 String direction = updatedMoves[4];
+                int point = Integer.parseInt(updatedMoves[5]);
+                String name = updatedMoves[6];
+                players.put(name, point);
                 Gui.movePlayerOnScreen(oldpos, newpos, direction);
             }
             break;

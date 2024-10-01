@@ -77,7 +77,7 @@ public class GameLogic {
                 Pair newpos = getRandomFreePosition();
                 otherPlayer.setLocation(newpos);
                 Pair oldpos = new Pair(x + delta_x, y + delta_y);
-                Server.sendUpdateToAll("moveplayer" + "/" + oldpos.x + "," + oldpos.y + "," + newpos.x + "," + newpos.y + "," + otherPlayer.direction);
+                Server.sendUpdateToAll("moveplayer" + "/" + oldpos.x + "," + oldpos.y + "," + newpos.x + "," + newpos.y + "," + otherPlayer.direction + "," + otherPlayer.point + "," + otherPlayer.name);
 //                Gui.movePlayerOnScreen(oldpos, newpos, otherPlayer.direction);
             } else {
                 player.addPoints(1);
@@ -85,7 +85,7 @@ public class GameLogic {
             Pair oldpos = player.getLocation();
             Pair newpos = new Pair(x + delta_x, y + delta_y);
 //            Gui.movePlayerOnScreen(oldpos, newpos, direction);
-            Server.sendUpdateToAll("moveplayer" + "/" + oldpos.x + "," + oldpos.y + "," + newpos.x + "," + newpos.y + "," + direction);
+            Server.sendUpdateToAll("moveplayer" + "/" + oldpos.x + "," + oldpos.y + "," + newpos.x + "," + newpos.y + "," + direction + "," + player.point + "," + player.name);
             player.setLocation(newpos);
         }
     }
