@@ -15,9 +15,6 @@ public class App {
         GameManager.requestGameState();
         GameManager.setPlayerName(name);
         GameManager.requestAddPlayer(name);
-        GameManager.getPlayers();
-//        GameManager.createDefaultPlayers();
-//        GameLogic.makePlayers("OldPeter");
         Application.launch(Gui.class);
     }
 }

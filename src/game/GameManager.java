@@ -72,18 +72,20 @@ public class GameManager {
         switch (update) {
             case "gamestate": {
                 System.out.println("Get current gamestate");
-                String[] incomingPlayers = serverMessageSplit[1].split("#");
-                System.out.println("Incomming players" + incomingPlayers.toString());
-                for (String player : incomingPlayers) {
-                    String[] playerAttributes = player.split(",");
-                    String name = playerAttributes[0];
-                    int x_position = Integer.parseInt(playerAttributes[1]);
-                    int y_position = Integer.parseInt(playerAttributes[2]);
-                    String direction = playerAttributes[3];
-                    int point = Integer.parseInt(playerAttributes[4]);
-                    players.put(name, point);
-                    Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
-                    Gui.updateScoreTable();
+                if (serverMessageSplit.length > 1) {
+                    String[] incomingPlayers = serverMessageSplit[1].split("#");
+                    System.out.println("Incomming players" + incomingPlayers.toString());
+                    for (String player : incomingPlayers) {
+                        String[] playerAttributes = player.split(",");
+                        String name = playerAttributes[0];
+                        int x_position = Integer.parseInt(playerAttributes[1]);
+                        int y_position = Integer.parseInt(playerAttributes[2]);
+                        String direction = playerAttributes[3];
+                        int point = Integer.parseInt(playerAttributes[4]);
+                        players.put(name, point);
+                        Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
+                        Gui.updateScoreTable();
+                    }
                 }
             }
             break;
@@ -131,7 +133,6 @@ public class GameManager {
         }
     }
 
-
     public static void setPlayerName(String name) {
         playerName = name;
     }
@@ -139,6 +140,4 @@ public class GameManager {
     public static HashMap<String, Integer> getPlayers() {
         return players;
     }
-
-
 }

@@ -179,11 +179,11 @@ public class Gui extends Application {
     }
 
     public static String getScoreList() {
-        StringBuffer b = new StringBuffer(100);
+        StringBuffer buffer = new StringBuffer(100);
         for (Map.Entry<String, Integer> p : GameManager.getPlayers().entrySet()) {
-            b.append(p.getKey() + " " + p.getValue() + "\r\n");
+            buffer.append(p.getKey()).append(" ").append(p.getValue()).append("\r\n");
         }
-        return b.toString();
+        return buffer.toString();
     }
 }
 
