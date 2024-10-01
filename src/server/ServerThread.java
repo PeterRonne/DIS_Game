@@ -44,7 +44,7 @@ public class ServerThread extends Thread {
                         int delta_x = player.getXpos();
                         int delta_y = player.getYpos();
                         Server.sendUpdateToAll("removeplayer" + "/" + delta_x + "," + delta_y + "," + name);
-                        Server.removeClient(connSocket);
+                        //Server.removeClient(connSocket);
                     }
                     case "moveplayer": {
                         String name = messageSplit[1];
