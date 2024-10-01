@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="Remove player">
-      <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
+    <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +61,7 @@
       <recent name="server" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="App" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="game.App" />
       <module name="DIS_Game" />
@@ -91,8 +94,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.App" />
         <item itemvalue="Application.App" />
         <item itemvalue="Application.Server" />
         <item itemvalue="Application.App" />
@@ -195,7 +198,6 @@
     <MESSAGE value="added a request type to get all current players positions" />
     <MESSAGE value="bug fixes had to make changes to the way messages where being send." />
     <MESSAGE value="points and names" />
-    <MESSAGE value="Remove player" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove player" />
+    <option name="LAST_COMMIT_MESSAGE" value="points and names" />
   </component>
 </project>

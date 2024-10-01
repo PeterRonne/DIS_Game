@@ -1,5 +1,7 @@
 package server;
 
+import game.GameManager;
+
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ public class Server {
 	private static final List<ClientHandler> clientHandlers = new ArrayList<>();
 	
 	public static void main(String[] args)throws Exception {
+		GameLogic.addTestPlayers();
 		ServerSocket welcomeSocket = new ServerSocket(6789);
 		while (!welcomeSocket.isClosed()) {
 			System.out.println("[SERVER] Waiting for connection...");
