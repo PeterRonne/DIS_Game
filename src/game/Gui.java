@@ -11,6 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 
+import java.util.Map;
+
 public class Gui extends Application {
 
 	public static final int size = 30;
@@ -160,14 +162,10 @@ public class Gui extends Application {
 
 	public String getScoreList() {
 		StringBuffer b = new StringBuffer(100);
-		for (Player p : GameLogic.players) {
-			b.append(p+"\r\n");
+		for (Map.Entry<String, Integer> p : GameManager.getPlayers().entrySet()) {
+			b.append(p.getKey() + " " + p.getValue() +"\r\n");
 		}
 		return b.toString();
 	}
-
-
-
-
 }
 

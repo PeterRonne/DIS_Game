@@ -61,6 +61,6 @@ public class ServerPlayer {
     }
 
     public String toString() {
-        return name + "," + location.x + "," + location.y + "," + direction;
+        return name + "," + location.x + "," + location.y + "," + direction + "," + point;
     }
 }
