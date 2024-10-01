@@ -71,6 +71,8 @@ public class GameLogic {
 
         if (General.board[y + delta_y].charAt(x + delta_x) == 'w') {
             player.addPoints(-1);
+            Server.sendUpdateToAll("moveplayer" + "/" + x + "," + y + "," + x + "," + y + "," + player.direction + "," + player.point + "," + player.name);
+
         } else {
             // collision detection
             ServerPlayer otherPlayer = getPlayerAt(x + delta_x, y + delta_y);

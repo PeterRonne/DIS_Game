@@ -83,6 +83,7 @@ public class GameManager {
                     int point = Integer.parseInt(playerAttributes[4]);
                     players.put(name, point);
                     Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
+                    Gui.updateScoreTable();
                 }
             }
             break;
@@ -95,6 +96,7 @@ public class GameManager {
                 int y_position = Integer.parseInt(player[2]);
                 String direction = player[3];
                 Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
+                Gui.updateScoreTable();
             }
             break;
             case "removeplayer": {
@@ -105,6 +107,7 @@ public class GameManager {
                 players.remove(name);
                 Pair position = new Pair(xPos, yPos);
                 Gui.removePlayerOnScreen(position);
+                Gui.updateScoreTable();
             }
             break;
             case "moveplayer": {

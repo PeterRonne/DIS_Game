@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="FIX FIX FIX 2">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="a8062b3b-05c9-4e18-bfb3-e825486afe5b" name="Changes" comment="Handled all exceptions and errors occurring when closing clients">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/ThreadIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/ThreadIn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/ConcurrentArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ConcurrentArrayList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/GameLogic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +191,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727809838405</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Handled all exceptions and errors occurring when closing clients">
+      <option name="closed" value="true" />
+      <created>1727813408449</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1727813408449</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -221,6 +225,7 @@
     <MESSAGE value="Remove player" />
     <MESSAGE value="FIX FIX FIX 2" />
     <MESSAGE value="working on a combined serverThread and clienthandler" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on a combined serverThread and clienthandler" />
+    <MESSAGE value="Handled all exceptions and errors occurring when closing clients" />
+    <option name="LAST_COMMIT_MESSAGE" value="Handled all exceptions and errors occurring when closing clients" />
   </component>
 </project>
