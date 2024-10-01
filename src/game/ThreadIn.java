@@ -33,5 +33,11 @@ public class ThreadIn extends Thread {
                 throw new RuntimeException(e);
             }
         }
+
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

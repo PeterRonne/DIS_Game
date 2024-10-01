@@ -1,7 +1,5 @@
 package server;
 
-import game.GameManager;
-
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,20 +23,10 @@ public class Server {
 		clientHandlers.add(clientHandler);
 	}
 
-	public static void remover(ClientHandler clientHandler) {
-		clientHandlers.remove(clientHandler);
+	synchronized public static void removeClient(Socket connSocket) {
+		clientHandlers.removeIf((clientHandler -> clientHandler.getConnectionSocket().equals(connSocket)));
 	}
 
-	public static void removeClient(Socket conSocket) {
-		ClientHandler cl = null;
-		for (ClientHandler clientHandler : clientHandlers) {
-			if (clientHandler.getConnectionSocket() == conSocket) {
-				cl = clientHandler;
-			}
-		}
-		remover(cl);
-	}
-	
 	public static void sendUpdateToAll(String update) {
 		for (ClientHandler clientHandler : clientHandlers) {
 			clientHandler.receiveMessage(update);

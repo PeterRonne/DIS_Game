@@ -65,10 +65,11 @@ public class GameManager {
 
     public static void update(String serverMessage) {
         System.out.println(serverMessage);
+        if (serverMessage == null) return;
         String[] serverMessageSplit = serverMessage.split("/");
-        String updateType = serverMessageSplit[0];
+        String update = serverMessageSplit[0];
 
-        switch (updateType) {
+        switch (update) {
             case "gamestate": {
                 System.out.println("Get current gamestate");
                 String[] incomingPlayers = serverMessageSplit[1].split("#");
@@ -123,7 +124,7 @@ public class GameManager {
             }
             break;
             default:
-                throw new IllegalArgumentException("Unknown update type: " + updateType);
+                throw new IllegalArgumentException("Unknown update type: " + update);
         }
     }
 

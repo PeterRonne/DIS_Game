@@ -10,7 +10,7 @@ public class App {
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Indtast spillernavn");
         String name = inFromUser.readLine();
-        Socket clientSocket = new Socket("10.10.132.216", 6789);
+        Socket clientSocket = new Socket("192.168.86.159", 6789);
         GameManager.initializeConnection(clientSocket);
         GameManager.requestGameState();
         GameManager.setPlayerName(name);

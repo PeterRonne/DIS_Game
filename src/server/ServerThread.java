@@ -17,7 +17,7 @@ public class ServerThread extends Thread {
             DataOutputStream outToClient = new DataOutputStream(connSocket.getOutputStream());
 
             String message;
-            while ((message = inFromClient.readLine()) != null) {
+            while (!connSocket.isClosed() && (message = inFromClient.readLine()) != null) {
                 System.out.println(message);
                 String[] messageSplit = message.split(",");
                 String request = messageSplit[0];
@@ -48,6 +48,7 @@ public class ServerThread extends Thread {
                         Server.removeClient(connSocket);
                         connSocket.close();
                     }
+                    break;
                     case "moveplayer": {
                         String name = messageSplit[1];
                         int delta_x = Integer.parseInt(messageSplit[2]);
@@ -56,6 +57,8 @@ public class ServerThread extends Thread {
                         GameLogic.updatePlayer(name, delta_x, delta_y, direction);
                     }
                     break;
+                    default:
+                        throw new IllegalArgumentException("Unknown update type: " + request);
                 }
             }
 
