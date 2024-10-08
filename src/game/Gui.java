@@ -1,5 +1,7 @@
 package game;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -10,8 +12,11 @@ import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
+import javafx.util.Duration;
 
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class Gui extends Application {
 
@@ -22,11 +27,10 @@ public class Gui extends Application {
     public static Image image_floor;
     public static Image image_wall;
     public static Image hero_right, hero_left, hero_up, hero_down;
-
+    public static Image fire_left, fire_right, fire_up, fire_down, fire_horizontal, fire_vertical, fire_wall_east, fire_wall_west, fire_wall_south, fire_wall_north;
 
     private static Label[][] fields;
     private static TextArea scoreList;
-
 
     // -------------------------------------------
     // | Maze: (0,0)              | Score: (1,0) |
@@ -38,7 +42,6 @@ public class Gui extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-
 
             GridPane grid = new GridPane();
             grid.setHgap(10);
@@ -62,6 +65,20 @@ public class Gui extends Application {
             hero_left = new Image(getClass().getResourceAsStream("Image/heroLeft.png"), size, size, false, false);
             hero_up = new Image(getClass().getResourceAsStream("Image/heroUp.png"), size, size, false, false);
             hero_down = new Image(getClass().getResourceAsStream("Image/heroDown.png"), size, size, false, false);
+
+
+            fire_right = new Image(getClass().getResourceAsStream("Image/fireRight.png"), size, size, false, false);
+            fire_left = new Image(getClass().getResourceAsStream("Image/fireLeft.png"), size, size, false, false);
+            fire_up = new Image(getClass().getResourceAsStream("Image/fireUp.png"), size, size, false, false);
+            fire_down = new Image(getClass().getResourceAsStream("Image/fireDown.png"), size, size, false, false);
+            fire_horizontal = new Image(getClass().getResourceAsStream("Image/fireHorizontal.png"), size, size, false, false);
+            fire_vertical = new Image(getClass().getResourceAsStream("Image/fireVertical.png"), size, size, false, false);
+
+            fire_wall_east = new Image(getClass().getResourceAsStream("Image/fireWallEast.png"), size, size, false, false);
+            fire_wall_west = new Image(getClass().getResourceAsStream("Image/fireWallWest.png"), size, size, false, false);
+            fire_wall_north = new Image(getClass().getResourceAsStream("Image/fireWallNorth.png"), size, size, false, false);
+            fire_wall_south = new Image(getClass().getResourceAsStream("Image/fireWallSouth.png"), size, size, false, false);
+
 
             fields = new Label[20][20];
             for (int j = 0; j < 20; j++) {
@@ -93,32 +110,19 @@ public class Gui extends Application {
 
             scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                 switch (event.getCode()) {
-                    case UP:
-                        playerMoved(0, -1, "up");
-                        break;
-                    case DOWN:
-                        playerMoved(0, +1, "down");
-                        break;
-                    case LEFT:
-                        playerMoved(-1, 0, "left");
-                        break;
-                    case RIGHT:
-                        playerMoved(+1, 0, "right");
-                        break;
-                    case SPACE:
-                        System.out.println("Space bar pressed");
-                        break;
-                    case ESCAPE:
-                        quitGame();
-                    default:
-                        break;
+                    case UP -> playerMoved(0, -1, "up");
+                    case DOWN -> playerMoved(0, +1, "down");
+                    case LEFT -> playerMoved(-1, 0, "left");
+                    case RIGHT -> playerMoved(+1, 0, "right");
+                    case SPACE -> playerShots();
+                    case ESCAPE -> quitGame();
                 }
             });
 
             // Putting default players on screen
-            for (int i = 0; i < GameLogic.players.size(); i++) {
-                fields[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
-            }
+//            for (int i = 0; i < GameLogic.players.size(); i++) {
+//                fields[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
+//            }
             scoreList.setText(getScoreList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,12 +135,11 @@ public class Gui extends Application {
         System.exit(0);
     }
 
-    public static void removePlayerOnScreen(Pair oldpos) {
+    public static void removeObjectOnScreen(Pair oldpos) {
         Platform.runLater(() -> {
             fields[oldpos.getX()][oldpos.getY()].setGraphic(new ImageView(image_floor));
         });
     }
-
 
     public static void placePlayerOnScreen(Pair newpos, String direction) {
         Platform.runLater(() -> {
@@ -161,12 +164,52 @@ public class Gui extends Application {
         });
     }
 
+    public static void fireWeapon(Pair[] pairs, String direction) {
+        final KeyFrame kf1 = new KeyFrame(Duration.seconds(0), e -> drawBulletPath(pairs, direction));
+        final KeyFrame kf2 = new KeyFrame(Duration.millis(500), e -> removeBulletPath(pairs));
+        final Timeline timeline = new Timeline(kf1, kf2);
+        Platform.runLater(timeline::play);
+    }
+
+    public static void drawBulletPath(Pair[] pairs, String direction) {
+            setBullet(pairs[0], direction, true);
+            for (int i = 1; i < pairs.length; i++) {
+                setBulletTrail(pairs[i], direction);
+
+            }
+            setBullet(pairs[pairs.length - 1], direction, false);
+    }
+
+    private static void setBullet(Pair pair, String direction, boolean start) {
+        ImageView graphic = switch (direction) {
+            case "right" -> new ImageView(start ? fire_right : fire_wall_east);
+            case "left" -> new ImageView(start ? fire_left : fire_wall_west);
+            case "up" -> new ImageView(start ? fire_up : fire_wall_north);
+            case "down" -> new ImageView(start ? fire_down : fire_wall_south);
+            default -> throw new IllegalArgumentException("Unknown direction");
+        };
+        fields[pair.x][pair.y].setGraphic(graphic);
+    }
+
+    private static void setBulletTrail(Pair pair, String direction) {
+        ImageView view = new ImageView(fire_vertical);
+        if (direction.equals("left") || direction.equals("right")) {
+            view = new ImageView(fire_horizontal);
+        }
+        fields[pair.x][pair.y].setGraphic(view);
+    }
+
+    public static void removeBulletPath(Pair[] pairs) {
+        for (Pair pair : pairs) {
+            Gui.removeObjectOnScreen(pair);
+        }
+    }
+
     public static void movePlayerOnScreen(Pair oldpos, Pair newpos, String direction) {
-        removePlayerOnScreen(oldpos);
+        removeObjectOnScreen(oldpos);
         placePlayerOnScreen(newpos, direction);
         updateScoreTable();
     }
-
 
     public static void updateScoreTable() {
         Platform.runLater(() -> {
@@ -176,6 +219,10 @@ public class Gui extends Application {
 
     public void playerMoved(int delta_x, int delta_y, String direction) {
         GameManager.requestMove(delta_x, delta_y, direction);
+    }
+
+    public void playerShots() {
+        GameManager.requestShot();
     }
 
     public static String getScoreList() {

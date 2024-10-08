@@ -27,7 +27,7 @@ public class Server {
 		clientHandlers.removeIf((clientHandler -> clientHandler.getConnectionSocket().equals(connSocket)));
 	}
 
-	public static void sendUpdateToAll(String update) {
+	synchronized public static void sendUpdateToAll(String update) {
 		for (ClientHandler clientHandler : clientHandlers) {
 			clientHandler.receiveMessage(update);
 		}

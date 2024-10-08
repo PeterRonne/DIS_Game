@@ -23,19 +23,24 @@ public class ServerThread extends Thread {
                 String request = messageSplit[0];
                 switch (request) {
                     case "gamestate": {
+                        int toAll = Integer.parseInt(messageSplit[1]);
                         StringBuilder builder = new StringBuilder();
                         List<ServerPlayer> players = GameLogic.getCurrentPlayers();
                         for (ServerPlayer player : players) {
                             builder.append(player.toString()).append("#");
                         }
-                        outToClient.writeBytes("gamestate" + "/" + builder.toString() + '\n');
+                        if (toAll == 0) {
+                            outToClient.writeBytes("gamestate/" + builder + '\n');
+                        } else {
+                            Server.sendUpdateToAll("gamestate/" + builder);
+                        }
                     }
                     break;
                     case "addplayer": {
                         String name = messageSplit[1];
                         ServerPlayer player = GameLogic.addPlayerToGame(name);
                         System.out.println("[SERVER] Added new player, " + name + "\n");
-                        Server.sendUpdateToAll("addplayer" + "/" + player.toString());
+                        Server.sendUpdateToAll("addplayer/" + player);
                     }
                     break;
                     case "removeplayer": {
@@ -43,7 +48,7 @@ public class ServerThread extends Thread {
                         ServerPlayer player = GameLogic.getPlayer(name);
                         int delta_x = player.getXpos();
                         int delta_y = player.getYpos();
-                        Server.sendUpdateToAll("removeplayer" + "/" + delta_x + "," + delta_y + "," + name);
+                        Server.sendUpdateToAll("removeplayer/" + delta_x + "," + delta_y + "," + name);
                         GameLogic.removePlayer(name);
                         Server.removeClient(connSocket);
                         connSocket.close();
@@ -55,6 +60,11 @@ public class ServerThread extends Thread {
                         int delta_y = Integer.parseInt(messageSplit[3]);
                         String direction = messageSplit[4];
                         GameLogic.updatePlayer(name, delta_x, delta_y, direction);
+                    }
+                    break;
+                    case "fireweapon": {
+                        String name = messageSplit[1];
+                        GameLogic.fireWeapon(name);
                     }
                     break;
                     default:

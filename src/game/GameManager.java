@@ -3,8 +3,8 @@ package game;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class GameManager {
     private static Socket clientSocket;
@@ -45,9 +45,9 @@ public class GameManager {
         }
     }
 
-    public static void requestGameState() {
+    public static void requestGameState(int toAll) {
         try {
-            outToServer.writeBytes("gamestate" + "\n");
+            outToServer.writeBytes("gamestate," + toAll + "," + "\n");
             outToServer.flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to request game state", e);
@@ -63,6 +63,15 @@ public class GameManager {
         }
     }
 
+    public static void requestShot() {
+        try {
+            outToServer.writeBytes("fireweapon" + "," + playerName + "\n");
+            outToServer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to request move ", e);
+        }
+    }
+
     public static void update(String serverMessage) {
         System.out.println(serverMessage);
         if (serverMessage == null) return;
@@ -71,10 +80,9 @@ public class GameManager {
 
         switch (update) {
             case "gamestate": {
-                System.out.println("Get current gamestate");
+                System.out.println("Current gamestate received");
                 if (serverMessageSplit.length > 1) {
                     String[] incomingPlayers = serverMessageSplit[1].split("#");
-                    System.out.println("Incomming players" + incomingPlayers.toString());
                     for (String player : incomingPlayers) {
                         String[] playerAttributes = player.split(",");
                         String name = playerAttributes[0];
@@ -90,7 +98,7 @@ public class GameManager {
             }
             break;
             case "addplayer": {
-                System.out.println("player added");
+                System.out.println("Player added");
                 String[] player = serverMessageSplit[1].split(",");
                 String name = player[0];
                 players.put(name, 0); // Player name and initial score
@@ -102,18 +110,19 @@ public class GameManager {
             }
             break;
             case "removeplayer": {
+                System.out.println("Player removed");
                 String[] playerInfo = serverMessageSplit[1].split(",");
                 int xPos = Integer.parseInt(playerInfo[0]);
                 int yPos = Integer.parseInt(playerInfo[1]);
                 String name = playerInfo[2];
                 players.remove(name);
                 Pair position = new Pair(xPos, yPos);
-                Gui.removePlayerOnScreen(position);
+                Gui.removeObjectOnScreen(position);
                 Gui.updateScoreTable();
             }
             break;
             case "moveplayer": {
-                System.out.println("player moved");
+                System.out.println("Player moved");
                 String[] updatedMoves = serverMessageSplit[1].split(",");
                 int old_x_position = Integer.parseInt(updatedMoves[0]);
                 int old_y_position = Integer.parseInt(updatedMoves[1]);
@@ -128,6 +137,25 @@ public class GameManager {
                 Gui.movePlayerOnScreen(oldpos, newpos, direction);
             }
             break;
+            case "fireweapon": {
+                System.out.println("Player shoots");
+                if (serverMessageSplit.length > 2) {
+                    String direction = serverMessageSplit[1];
+                    String[] pairStrings = serverMessageSplit[2].split("#");
+                    Pair[] pairs = new Pair[pairStrings.length];
+                    for (int i = 0; i < pairStrings.length; i++) {
+                        String[] attr = pairStrings[i].split(",");
+                        pairs[i] = new Pair(Integer.parseInt(attr[0]), Integer.parseInt(attr[1]));
+                    }
+                    Gui.fireWeapon(pairs, direction);
+                    requestGameState(1);
+                }
+            }
+            break;
+            case "updatescore": {
+                System.out.println("Updating score");
+
+            }
             default:
                 throw new IllegalArgumentException("Unknown update type: " + update);
         }
