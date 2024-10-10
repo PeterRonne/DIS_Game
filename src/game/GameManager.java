@@ -3,23 +3,40 @@ package game;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class GameManager {
     private static Socket clientSocket;
     private static DataOutputStream outToServer;
     private static ThreadIn threadIn;
     private static String playerName;
+    private static String CONNECTION_ADRESS;
+    private static int PORT;
+    private static boolean isGameOn;
     private static final HashMap<String, Integer> players = new HashMap<>();
 
-    public static void initializeConnection(Socket clientSocket) {
-        GameManager.clientSocket = clientSocket;
+    public static void setConnectionAdress(String adress) {
+        CONNECTION_ADRESS = adress;
+    }
+
+    public static void setPort(int port) {
+        PORT = port;
+    }
+
+    public static void setPlayerName(String name) {
+        playerName = name;
+    }
+
+    public static boolean initializeConnection() {
         try {
+            clientSocket = new Socket(CONNECTION_ADRESS, PORT);
             GameManager.outToServer = new DataOutputStream(clientSocket.getOutputStream());
             startInThread();
+            isGameOn = false;
+            return true;
         } catch (IOException e) {
-            throw new RuntimeException("Failed to create connection ", e);
+            System.out.println("Failed to create connection ");
+            return false;
         }
     }
 
@@ -28,7 +45,7 @@ public class GameManager {
         threadIn.start();
     }
 
-    public static void requestAddPlayer(String playerName) {
+    public static void requestAddPlayer() {
         try {
             outToServer.writeBytes("addplayer" + "," + playerName + "\n");
             outToServer.flush();
@@ -39,7 +56,7 @@ public class GameManager {
 
     public static void requestRemovePlayer() {
         try {
-            outToServer.writeBytes("removeplayer" + "," + playerName + "\n");
+            outToServer.writeBytes("removeplayer," + playerName + "\n");
         } catch (IOException e) {
             throw new RuntimeException("Failed to remove player", e);
         }
@@ -54,18 +71,27 @@ public class GameManager {
         }
     }
 
+    public static void requestCurrentPlayers() {
+        try {
+            outToServer.writeBytes("sendplayers" + "\n");
+            outToServer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to request players", e);
+        }
+    }
+
     public static void requestMove(int delta_x, int delta_y, String direction) {
         try {
-            outToServer.writeBytes("moveplayer" + "," + playerName + "," + delta_x + "," + delta_y + "," + direction + "\n");
+            outToServer.writeBytes("moveplayer," + playerName + "," + delta_x + "," + delta_y + "," + direction + "\n");
             outToServer.flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to request move ", e);
         }
     }
 
-    public static void requestShot() {
+    public static void requestShoot() {
         try {
-            outToServer.writeBytes("fireweapon" + "," + playerName + "\n");
+            outToServer.writeBytes("fireweapon," + playerName + "\n");
             outToServer.flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to request move ", e);
@@ -93,6 +119,15 @@ public class GameManager {
                         players.put(name, point);
                         Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
                         Gui.updateScoreTable();
+                    }
+                }
+            }
+            break;
+            case "sendplayers": {
+                if (serverMessageSplit.length > 1) {
+                    String[] incomingPlayerNames = serverMessageSplit[1].split("#");
+                    for (String incomingPlayerName : incomingPlayerNames) {
+                        players.put(incomingPlayerName, 0);
                     }
                 }
             }
@@ -157,15 +192,15 @@ public class GameManager {
 
             }
             default:
-                throw new IllegalArgumentException("Unknown update type: " + update);
+                System.out.println("Unknown update type: " + update);
         }
-    }
-
-    public static void setPlayerName(String name) {
-        playerName = name;
     }
 
     public static HashMap<String, Integer> getPlayers() {
         return players;
+    }
+
+    public static boolean validateName(String name) {
+        return !players.containsKey(name);
     }
 }

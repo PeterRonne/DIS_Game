@@ -4,17 +4,32 @@ import java.net.*;
 import java.io.*;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.stage.Stage;
 
-public class App {
+public class App extends Application {
     public static void main(String[] args) throws Exception {
-        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Indtast spillernavn");
-        String name = inFromUser.readLine();
-        Socket clientSocket = new Socket("10.10.132.213", 6789);
-        GameManager.initializeConnection(clientSocket);
-        GameManager.requestGameState(0);
-        GameManager.setPlayerName(name);
-        GameManager.requestAddPlayer(name);
-        Application.launch(Gui.class);
+
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        BroadcastReceiverThread receiver = new BroadcastReceiverThread();
+        receiver.start();
+
+        WelcomeScreen welcomeScreen = new WelcomeScreen();
+        welcomeScreen.start(stage);
+
+        stage.setOnHiding(event -> {
+
+            GameManager.requestGameState(0);
+            GameManager.requestAddPlayer();
+
+            Platform.runLater(() -> {
+                Gui gui = new Gui();
+                gui.start(stage);
+            });
+        });
     }
 }

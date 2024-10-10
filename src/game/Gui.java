@@ -15,8 +15,6 @@ import javafx.scene.text.*;
 import javafx.util.Duration;
 
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class Gui extends Application {
 
@@ -117,6 +115,10 @@ public class Gui extends Application {
                     case SPACE -> playerShots();
                     case ESCAPE -> quitGame();
                 }
+            });
+
+            primaryStage.setOnCloseRequest(event ->  {
+                quitGame();
             });
 
             // Putting default players on screen
@@ -222,7 +224,7 @@ public class Gui extends Application {
     }
 
     public void playerShots() {
-        GameManager.requestShot();
+        GameManager.requestShoot();
     }
 
     public static String getScoreList() {

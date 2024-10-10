@@ -1,10 +1,7 @@
 package server;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class GameLogic {
@@ -63,7 +60,8 @@ public class GameLogic {
     public synchronized static void updatePlayer(String name, int delta_x, int delta_y, String direction) {
         ServerPlayer player = players.get(name);
         if (player == null) {
-            throw new IllegalArgumentException("No player to update");
+            System.out.println("No player to update");
+            return;
         }
         player.direction = direction;
         int x = player.getXpos(), y = player.getYpos();
@@ -95,13 +93,14 @@ public class GameLogic {
     public static void fireWeapon(String name) {
         ServerPlayer player = players.get(name);
         if (player == null) {
-            throw new IllegalArgumentException("No player like that exists");
+            System.out.println("No player like that exists");
+            return;
         }
 
         StringBuilder builder = new StringBuilder();
         String direction = player.direction;
         builder.append(direction).append("/");
-        Pair cur = updateBulletPath(direction, player.getXpos(), player.getYpos());
+        Pair cur = advanceBulletPath(direction, player.getXpos(), player.getYpos());
 
         while (General.board[cur.y].charAt(cur.x) != 'w') {
             ServerPlayer otherPlayer = getPlayerAt(cur.x, cur.y);
@@ -111,13 +110,13 @@ public class GameLogic {
                 otherPlayer.location = getRandomFreePosition();
             }
             builder.append(cur).append("#");
-            cur = updateBulletPath(direction, cur.x, cur.y);
+            cur = advanceBulletPath(direction, cur.x, cur.y);
         }
 
         Server.sendUpdateToAll("fireweapon/" + builder);
     }
 
-    private static Pair updateBulletPath(String direction, int x, int y) {
+    private static Pair advanceBulletPath(String direction, int x, int y) {
         switch (direction) {
             case "up" -> y--;
             case "down" -> y++;
@@ -138,6 +137,9 @@ public class GameLogic {
 
     public static List<ServerPlayer> getCurrentPlayers() {
         return new ArrayList<>(players.values());
+    }
+    public static Set<String> getPlayerNames() {
+        return new HashSet<>(players.keySet());
     }
 
     public static ServerPlayer getPlayer(String name) {

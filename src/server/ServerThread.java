@@ -3,6 +3,7 @@ package server;
 import java.net.*;
 import java.io.*;
 import java.util.List;
+import java.util.Set;
 
 public class ServerThread extends Thread {
     private final Socket connSocket;
@@ -34,6 +35,13 @@ public class ServerThread extends Thread {
                         } else {
                             Server.sendUpdateToAll("gamestate/" + builder);
                         }
+                    }
+                    break;
+                    case "sendplayers": {
+                        StringBuilder builder = new StringBuilder();
+                        Set<String> players = GameLogic.getPlayerNames();
+                        players.forEach((player) -> builder.append(player).append("#"));
+                        outToClient.writeBytes("sendplayers/" + builder + '\n');
                     }
                     break;
                     case "addplayer": {
@@ -68,13 +76,19 @@ public class ServerThread extends Thread {
                     }
                     break;
                     default:
-                        throw new IllegalArgumentException("Unknown update type: " + request);
+                        System.out.println("Unknown update type: " + request);
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Client disconnected suddenly");
+        } finally {
+            Server.removeClient(connSocket);
+            try {
+                connSocket.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        // do the work here
     }
 }

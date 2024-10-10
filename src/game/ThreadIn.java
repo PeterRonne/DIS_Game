@@ -20,11 +20,6 @@ public class ThreadIn extends Thread {
 
     @Override
     public void run() {
-        try {
-            sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         while(!clientSocket.isClosed()) {
             try {
                 String serverMessage = inFromServer.readLine();
