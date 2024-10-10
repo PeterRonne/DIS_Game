@@ -1,4 +1,4 @@
-package server;
+package server.model;
 
 public class General {
     public static  String[] board = {    // 20x20

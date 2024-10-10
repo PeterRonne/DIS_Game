@@ -1,4 +1,4 @@
-package game;
+package game.model;
 
 public class Generel {
 	public static  String[] board = {    // 20x20

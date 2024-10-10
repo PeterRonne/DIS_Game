@@ -1,8 +1,9 @@
 package game;
 
-import java.net.*;
-import java.io.*;
-
+import game.controller.GameManager;
+import game.gui.Gui;
+import game.gui.WelcomeScreen;
+import game.threads.BroadcastReceiverThread;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;

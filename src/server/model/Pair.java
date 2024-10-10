@@ -1,10 +1,9 @@
-package game;
+package server.model;
 
 public class Pair {
-	int x;
-	int y;
+	private int x;
+	private int y;
 	public Pair(int x, int y) {
-		super();
 		this.x = x;
 		this.y = y;
 	}
@@ -20,6 +19,9 @@ public class Pair {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
 
+	@Override
+	public String toString() {
+		return x + "," + y;
+	}
 }

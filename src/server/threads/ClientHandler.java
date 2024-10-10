@@ -1,4 +1,4 @@
-package server;
+package server.threads;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

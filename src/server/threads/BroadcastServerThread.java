@@ -1,11 +1,8 @@
-package server;
-
-import game.GameManager;
+package server.threads;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Arrays;
 
 public class BroadcastServerThread extends Thread {
     private boolean running = true;

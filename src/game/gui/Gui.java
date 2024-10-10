@@ -1,5 +1,8 @@
-package game;
+package game.gui;
 
+import game.controller.GameManager;
+import game.model.Generel;
+import game.model.Pair;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -190,7 +193,7 @@ public class Gui extends Application {
             case "down" -> new ImageView(start ? fire_down : fire_wall_south);
             default -> throw new IllegalArgumentException("Unknown direction");
         };
-        fields[pair.x][pair.y].setGraphic(graphic);
+        fields[pair.getX()][pair.getY()].setGraphic(graphic);
     }
 
     private static void setBulletTrail(Pair pair, String direction) {
@@ -198,7 +201,7 @@ public class Gui extends Application {
         if (direction.equals("left") || direction.equals("right")) {
             view = new ImageView(fire_horizontal);
         }
-        fields[pair.x][pair.y].setGraphic(view);
+        fields[pair.getX()][pair.getY()].setGraphic(view);
     }
 
     public static void removeBulletPath(Pair[] pairs) {

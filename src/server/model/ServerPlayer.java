@@ -1,10 +1,10 @@
-package server;
+package server.model;
 
 public class ServerPlayer {
-    String name;
-    Pair location;
-    int point;
-    String direction;
+    private final String name;
+    private Pair location;
+    private int point;
+    private String direction;
 
     public ServerPlayer(String name, Pair loc) {
         this.name = name;
@@ -22,19 +22,15 @@ public class ServerPlayer {
     }
 
     public int getXpos() {
-        return location.x;
-    }
-
-    public void setXpos(int xpos) {
-        this.location.x = xpos;
+        return location.getX();
     }
 
     public int getYpos() {
-        return location.y;
+        return location.getY();
     }
 
     public void setYpos(int ypos) {
-        this.location.y = ypos;
+        this.location.setY(ypos);
     }
 
     public String getDirection() {
@@ -45,22 +41,30 @@ public class ServerPlayer {
         this.direction = direction;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
     public void addPoints(int p) {
         point += p;
     }
 
     public String getRandomDirection() {
         int n = (int) (Math.random() * 4);
-        switch (n) {
-            case 0: return "up";
-            case 1: return "down";
-            case 2: return "left";
-            case 3: return "right";
-            default: return "up";
-        }
+        return switch (n) {
+            case 0 -> "up";
+            case 1 -> "down";
+            case 2 -> "left";
+            case 3 -> "right";
+            default -> "up";
+        };
     }
 
     public String toString() {
-        return name + "," + location.x + "," + location.y + "," + direction + "," + point;
+        return name + "," + location.getX() + "," + location.getY() + "," + direction + "," + point;
     }
 }

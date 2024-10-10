@@ -1,4 +1,6 @@
-package game;
+package game.threads;
+
+import game.controller.GameManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;

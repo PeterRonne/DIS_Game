@@ -1,4 +1,8 @@
-package server;
+package server.threads;
+
+import server.controller.GameLogic;
+import server.Server;
+import server.model.ServerPlayer;
 
 import java.net.*;
 import java.io.*;

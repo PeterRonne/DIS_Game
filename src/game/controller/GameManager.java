@@ -1,4 +1,8 @@
-package game;
+package game.controller;
+
+import game.gui.Gui;
+import game.model.Pair;
+import game.threads.ThreadIn;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,15 +12,13 @@ import java.util.*;
 public class GameManager {
     private static Socket clientSocket;
     private static DataOutputStream outToServer;
-    private static ThreadIn threadIn;
     private static String playerName;
-    private static String CONNECTION_ADRESS;
+    private static String CONNECTION_ADDRESS;
     private static int PORT;
-    private static boolean isGameOn;
     private static final HashMap<String, Integer> players = new HashMap<>();
 
-    public static void setConnectionAdress(String adress) {
-        CONNECTION_ADRESS = adress;
+    public static void setConnectionAddress(String adress) {
+        CONNECTION_ADDRESS = adress;
     }
 
     public static void setPort(int port) {
@@ -29,10 +31,9 @@ public class GameManager {
 
     public static boolean initializeConnection() {
         try {
-            clientSocket = new Socket(CONNECTION_ADRESS, PORT);
+            clientSocket = new Socket(CONNECTION_ADDRESS, PORT);
             GameManager.outToServer = new DataOutputStream(clientSocket.getOutputStream());
             startInThread();
-            isGameOn = false;
             return true;
         } catch (IOException e) {
             System.out.println("Failed to create connection ");
@@ -41,7 +42,7 @@ public class GameManager {
     }
 
     public static void startInThread() {
-        threadIn = new ThreadIn(clientSocket);
+        ThreadIn threadIn = new ThreadIn(clientSocket);
         threadIn.start();
     }
 

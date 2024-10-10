@@ -1,4 +1,7 @@
-package game;
+package game.threads;
+
+import game.controller.GameManager;
+import game.gui.WelcomeScreen;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -17,7 +20,7 @@ public class BroadcastReceiverThread extends Thread {
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             socket.receive(packet);
             String[] receivedMessage = new String(packet.getData(), 0, packet.getLength()).split("/");
-            GameManager.setConnectionAdress(receivedMessage[0]);
+            GameManager.setConnectionAddress(receivedMessage[0]);
             GameManager.setPort(Integer.parseInt(receivedMessage[1]));
 
             WelcomeScreen.updateConnectionInfo(receivedMessage[0], receivedMessage[1]);
