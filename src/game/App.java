@@ -24,7 +24,7 @@ public class App extends Application {
 
         stage.setOnHiding(event -> {
 
-            GameManager.requestGameState(0);
+            GameManager.requestGameState();
             GameManager.requestAddPlayer();
 
             Platform.runLater(() -> {

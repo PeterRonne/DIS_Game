@@ -28,17 +28,12 @@ public class ServerThread extends Thread {
                 String request = messageSplit[0];
                 switch (request) {
                     case "gamestate": {
-                        int toAll = Integer.parseInt(messageSplit[1]);
                         StringBuilder builder = new StringBuilder();
                         List<ServerPlayer> players = GameLogic.getCurrentPlayers();
                         for (ServerPlayer player : players) {
                             builder.append(player.toString()).append("#");
                         }
-                        if (toAll == 0) {
-                            outToClient.writeBytes("gamestate/" + builder + '\n');
-                        } else {
-                            Server.sendUpdateToAll("gamestate/" + builder);
-                        }
+                        outToClient.writeBytes("gamestate/" + builder + '\n');
                     }
                     break;
                     case "sendplayers": {

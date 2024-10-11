@@ -171,7 +171,7 @@ public class Gui extends Application {
 
     public static void fireWeapon(Pair[] pairs, String direction) {
         final KeyFrame kf1 = new KeyFrame(Duration.seconds(0), e -> drawBulletPath(pairs, direction));
-        final KeyFrame kf2 = new KeyFrame(Duration.millis(500), e -> removeBulletPath(pairs));
+        final KeyFrame kf2 = new KeyFrame(Duration.millis(200), e -> removeBulletPath(pairs));
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
     }

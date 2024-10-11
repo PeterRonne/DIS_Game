@@ -63,9 +63,9 @@ public class GameManager {
         }
     }
 
-    public static void requestGameState(int toAll) {
+    public static void requestGameState() {
         try {
-            outToServer.writeBytes("gamestate," + toAll + "," + "\n");
+            outToServer.writeBytes("gamestate," + "\n");
             outToServer.flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to request game state", e);
@@ -175,9 +175,6 @@ public class GameManager {
             break;
             case "fireweapon": {
                 System.out.println("Player shoots");
-
-//                "fireweapon/" + locations + "/" + playersHit
-
                 if (serverMessageSplit.length > 2) {
                     String direction = serverMessageSplit[1];
                     String[] pairStrings = serverMessageSplit[2].split("#");
@@ -201,7 +198,6 @@ public class GameManager {
                         }
                         Gui.updateScoreTable();
                     }
-//                    requestGameState(1);
                 }
             }
             break;
