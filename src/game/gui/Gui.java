@@ -120,7 +120,7 @@ public class Gui extends Application {
                 }
             });
 
-            primaryStage.setOnCloseRequest(event ->  {
+            primaryStage.setOnCloseRequest(event -> {
                 quitGame();
             });
 
@@ -171,18 +171,18 @@ public class Gui extends Application {
 
     public static void fireWeapon(Pair[] pairs, String direction) {
         final KeyFrame kf1 = new KeyFrame(Duration.seconds(0), e -> drawBulletPath(pairs, direction));
-        final KeyFrame kf2 = new KeyFrame(Duration.millis(200), e -> removeBulletPath(pairs));
+        final KeyFrame kf2 = new KeyFrame(Duration.millis(300), e -> removeBulletPath(pairs, direction));
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
     }
 
     public static void drawBulletPath(Pair[] pairs, String direction) {
-            setBullet(pairs[0], direction, true);
-            for (int i = 1; i < pairs.length; i++) {
-                setBulletTrail(pairs[i], direction);
+        setBullet(pairs[0], direction, true);
+        for (int i = 1; i < pairs.length; i++) {
+            setBulletTrail(pairs[i], direction);
 
-            }
-            setBullet(pairs[pairs.length - 1], direction, false);
+        }
+        setBullet(pairs[pairs.length - 1], direction, false);
     }
 
     private static void setBullet(Pair pair, String direction, boolean start) {
@@ -204,11 +204,23 @@ public class Gui extends Application {
         fields[pair.getX()][pair.getY()].setGraphic(view);
     }
 
-    public static void removeBulletPath(Pair[] pairs) {
+    public static void removeBulletPath(Pair[] pairs, String direction) {
+        Image playerImage = switch (direction) {
+            case "right" -> hero_right;
+            case "left" -> hero_left;
+            case "up" -> hero_up;
+            case "down" -> hero_down;
+            default -> throw new IllegalArgumentException("Unknown direction");
+        };
+
         for (Pair pair : pairs) {
-            Gui.removeObjectOnScreen(pair);
+            ImageView currentGraphic = (ImageView) fields[pair.getX()][pair.getY()].getGraphic();
+            if (!currentGraphic.getImage().equals(playerImage)) {
+                Gui.removeObjectOnScreen(pair);
+            }
         }
     }
+
 
     public static void movePlayerOnScreen(Pair oldpos, Pair newpos, String direction) {
         removeObjectOnScreen(oldpos);
