@@ -20,7 +20,7 @@ public class GameLogic {
         return player;
     }
 
-    public static void removePlayer(String name) {
+    public synchronized static void removePlayer(String name) {
         players.remove(name);
     }
 
@@ -97,7 +97,7 @@ public class GameLogic {
         }
     }
 
-    public static void fireWeapon(String name) {
+    public synchronized static void fireWeapon(String name) {
         ServerPlayer player = players.get(name);
         if (player == null) {
             System.out.println("No player like that exists");
