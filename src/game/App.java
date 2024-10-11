@@ -29,6 +29,7 @@ public class App extends Application {
 
             Platform.runLater(() -> {
                 Gui gui = new Gui();
+                stage.setTitle("Game");
                 gui.start(stage);
             });
         });
