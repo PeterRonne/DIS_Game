@@ -49,6 +49,10 @@ public class ServerPlayer {
         return point;
     }
 
+    public void resetPoint() {
+        this.point = 0;
+    }
+
     public void addPoints(int p) {
         point += p;
     }

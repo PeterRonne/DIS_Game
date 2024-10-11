@@ -203,9 +203,7 @@ public class GameManager {
             break;
             case "winnerfound": {
                 String winner = serverMessageSplit[1];
-                String point = serverMessageSplit[0];
-
-                Gui.showWinnerMessage(winner, point);
+                Gui.showWinnerMessage(winner);
             }
             break;
             default:

@@ -94,7 +94,8 @@ public class GameLogic {
             Server.sendUpdateToAll("moveplayer/" + oldpos.getX() + "," + oldpos.getY() + "," + newpos.getX() + "," + newpos.getY() + "," + direction + "," + player.getPoint() + "," + player.getName());
 
             if (player.getPoint() > 50) {
-                Server.sendUpdateToAll("winnerfound/" + player.getName() + player.getPoint());
+                Server.sendUpdateToAll("winnerfound/" + player.getName());
+                resetPlayerScores();
             }
         }
     }
@@ -129,7 +130,14 @@ public class GameLogic {
         Server.sendUpdateToAll("fireweapon/" + locations + playersHit);
 
         if (player.getPoint() > 50) {
-            Server.sendUpdateToAll("winnerfound/" + player.getName() + player.getPoint());
+            Server.sendUpdateToAll("winnerfound/" + player.getName());
+            resetPlayerScores();
+        }
+    }
+
+    private static void resetPlayerScores() {
+        for (ServerPlayer player : players.values()) {
+            player.resetPoint();
         }
     }
 

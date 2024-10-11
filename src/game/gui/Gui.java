@@ -134,7 +134,7 @@ public class Gui extends Application {
         }
     }
 
-    private void quitGame() {
+    public static void quitGame() {
         GameManager.requestRemovePlayer();
         updateScoreTable();
         System.exit(0);
@@ -241,10 +241,16 @@ public class Gui extends Application {
         GameManager.requestShoot();
     }
 
-    public static void showWinnerMessage(String winner, String point) {
+    public static void showWinnerMessage(String winner) {
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"And the winner is " + winner);
-            alert.show();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"And the winner is " + winner + "\n" + "Do you wanna play again?");
+            alert.showAndWait().ifPresent((buttonType -> {
+                if (buttonType == ButtonType.OK) {
+                    GameManager.requestGameState();
+                } else {
+                    quitGame();
+                }
+            }));
         });
     }
 
