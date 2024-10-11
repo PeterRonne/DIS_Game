@@ -184,7 +184,7 @@ public class GameManager {
                         pairs[i] = new Pair(Integer.parseInt(attr[0]), Integer.parseInt(attr[1]));
                     }
                     Gui.fireWeapon(pairs, direction);
-                    new Thread(() -> requestGameState(1));
+                    new Thread(() -> requestGameState(1)).start();
                 }
             }
             break;
