@@ -221,7 +221,6 @@ public class Gui extends Application {
         }
     }
 
-
     public static void movePlayerOnScreen(Pair oldpos, Pair newpos, String direction) {
         removeObjectOnScreen(oldpos);
         placePlayerOnScreen(newpos, direction);
@@ -240,6 +239,13 @@ public class Gui extends Application {
 
     public void playerShots() {
         GameManager.requestShoot();
+    }
+
+    public static void showWinnerMessage(String winner, String point) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"And the winner is " + winner);
+            alert.show();
+        });
     }
 
     public static String getScoreList() {

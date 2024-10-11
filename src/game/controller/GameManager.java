@@ -201,10 +201,13 @@ public class GameManager {
                 }
             }
             break;
-            case "updatescore": {
-                System.out.println("Updating score");
+            case "winnerfound": {
+                String winner = serverMessageSplit[1];
+                String point = serverMessageSplit[0];
 
+                Gui.showWinnerMessage(winner, point);
             }
+            break;
             default:
                 System.out.println("Unknown update type: " + update);
         }

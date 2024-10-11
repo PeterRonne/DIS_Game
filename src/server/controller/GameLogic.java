@@ -90,8 +90,12 @@ public class GameLogic {
             }
             Pair oldpos = player.getLocation();
             Pair newpos = new Pair(x + delta_x, y + delta_y);
-            Server.sendUpdateToAll("moveplayer/" + oldpos.getX() + "," + oldpos.getY() + "," + newpos.getX() + "," + newpos.getY() + "," + direction + "," + player.getPoint() + "," + player.getName());
             player.setLocation(newpos);
+            Server.sendUpdateToAll("moveplayer/" + oldpos.getX() + "," + oldpos.getY() + "," + newpos.getX() + "," + newpos.getY() + "," + direction + "," + player.getPoint() + "," + player.getName());
+
+            if (player.getPoint() > 50) {
+                Server.sendUpdateToAll("winnerfound/" + player.getName() + player.getPoint());
+            }
         }
     }
 
@@ -123,6 +127,10 @@ public class GameLogic {
         locations.append("/");
 
         Server.sendUpdateToAll("fireweapon/" + locations + playersHit);
+
+        if (player.getPoint() > 50) {
+            Server.sendUpdateToAll("winnerfound/" + player.getName() + player.getPoint());
+        }
     }
 
     private static Pair advanceBulletPath(String direction, int x, int y) {
