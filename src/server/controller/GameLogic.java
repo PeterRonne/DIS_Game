@@ -10,10 +10,7 @@ import java.util.*;
 
 
 public class GameLogic {
-    //    public static List<ServerPlayer> players = new ArrayList<ServerPlayer>();
     public static HashMap<String, ServerPlayer> players = new HashMap<>();
-    public static ServerPlayer me;
-
 
     public synchronized static ServerPlayer addPlayerToGame(String name) {
         Pair pair = getRandomFreePosition();
@@ -93,7 +90,7 @@ public class GameLogic {
             player.setLocation(newpos);
             Server.sendUpdateToAll("moveplayer/" + oldpos.getX() + "," + oldpos.getY() + "," + newpos.getX() + "," + newpos.getY() + "," + direction + "," + player.getPoint() + "," + player.getName());
 
-            if (player.getPoint() > 50) {
+            if (player.getPoint() >= 1000) {
                 Server.sendUpdateToAll("winnerfound/" + player.getName());
                 resetPlayerScores();
             }
@@ -129,15 +126,9 @@ public class GameLogic {
 
         Server.sendUpdateToAll("fireweapon/" + locations + playersHit);
 
-        if (player.getPoint() > 50) {
+        if (player.getPoint() >= 1000) {
             Server.sendUpdateToAll("winnerfound/" + player.getName());
             resetPlayerScores();
-        }
-    }
-
-    private static void resetPlayerScores() {
-        for (ServerPlayer player : players.values()) {
-            player.resetPoint();
         }
     }
 
@@ -160,6 +151,12 @@ public class GameLogic {
         return null;
     }
 
+    private static void resetPlayerScores() {
+        for (ServerPlayer player : players.values()) {
+            player.resetPoint();
+        }
+    }
+
     public static List<ServerPlayer> getCurrentPlayers() {
         return new ArrayList<>(players.values());
     }
@@ -170,6 +167,4 @@ public class GameLogic {
     public static ServerPlayer getPlayer(String name) {
         return players.get(name);
     }
-
-
 }
