@@ -102,9 +102,11 @@ public class GameLogic {
             return;
         }
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder locations = new StringBuilder();
+        StringBuilder playersHit = new StringBuilder();
+
         String direction = player.getDirection();
-        builder.append(direction).append("/");
+        locations.append(direction).append("/");
         Pair cur = advanceBulletPath(direction, player.getXpos(), player.getYpos());
 
         while (General.board[cur.getY()].charAt(cur.getX()) != 'w') {
@@ -113,12 +115,14 @@ public class GameLogic {
                 player.addPoints(50);
                 otherPlayer.addPoints(-50);
                 otherPlayer.setLocation(getRandomFreePosition());
+                playersHit.append(otherPlayer).append("#");
             }
-            builder.append(cur).append("#");
+            locations.append(cur).append("#");
             cur = advanceBulletPath(direction, cur.getX(), cur.getY());
         }
+        locations.append("/");
 
-        Server.sendUpdateToAll("fireweapon/" + builder);
+        Server.sendUpdateToAll("fireweapon/" + locations + playersHit);
     }
 
     private static Pair advanceBulletPath(String direction, int x, int y) {

@@ -119,8 +119,8 @@ public class GameManager {
                         int point = Integer.parseInt(playerAttributes[4]);
                         players.put(name, point);
                         Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
-                        Gui.updateScoreTable();
                     }
+                    Gui.updateScoreTable();
                 }
             }
             break;
@@ -175,6 +175,9 @@ public class GameManager {
             break;
             case "fireweapon": {
                 System.out.println("Player shoots");
+
+//                "fireweapon/" + locations + "/" + playersHit
+
                 if (serverMessageSplit.length > 2) {
                     String direction = serverMessageSplit[1];
                     String[] pairStrings = serverMessageSplit[2].split("#");
@@ -184,7 +187,21 @@ public class GameManager {
                         pairs[i] = new Pair(Integer.parseInt(attr[0]), Integer.parseInt(attr[1]));
                     }
                     Gui.fireWeapon(pairs, direction);
-                    new Thread(() -> requestGameState(1)).start();
+                    if (serverMessageSplit.length > 3) {
+                        String[] playersHit = serverMessageSplit[3].split("#");
+                        for (String player : playersHit) {
+                            String[] playerAttributes = player.split(",");
+                            String name = playerAttributes[0];
+                            int x_position = Integer.parseInt(playerAttributes[1]);
+                            int y_position = Integer.parseInt(playerAttributes[2]);
+                            direction = playerAttributes[3];
+                            int point = Integer.parseInt(playerAttributes[4]);
+                            players.put(name, point);
+                            Gui.placePlayerOnScreen(new Pair(x_position, y_position), direction);
+                        }
+                        Gui.updateScoreTable();
+                    }
+//                    requestGameState(1);
                 }
             }
             break;
