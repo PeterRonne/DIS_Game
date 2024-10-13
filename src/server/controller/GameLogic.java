@@ -110,37 +110,38 @@ public class GameLogic {
 
         String direction = player.getDirection();
         locations.append(direction).append("/");
-        Pair cur = advanceBulletPath(direction, player.getXpos(), player.getYpos());
 
-        while (General.board[cur.getY()].charAt(cur.getX()) != 'w') {
-            Player otherPlayer = getPlayerAt(cur.getX(), cur.getY());
+        Pair result = getAdvanceCoordinates(direction);
+        int x = player.getXpos(), y = player.getYpos();
+
+        while (General.board[y += result.getY()].charAt(x += result.getX()) != 'w') {
+            Player otherPlayer = getPlayerAt(x, y);
             if (otherPlayer != null) {
                 player.addPoints(50);
                 otherPlayer.addPoints(-50);
                 otherPlayer.setLocation(getRandomFreePosition());
                 playersHit.append(otherPlayer).append("#");
             }
-            locations.append(cur).append("#");
-            cur = advanceBulletPath(direction, cur.getX(), cur.getY());
+            locations.append(new Pair(x, y)).append("#");
         }
         locations.append("/");
 
         Server.sendUpdateToAll("fireweapon/" + locations + playersHit);
-
         if (player.getPoint() >= 1000) {
             Server.sendUpdateToAll("winnerfound/" + player.getName());
             resetPlayerScores();
         }
     }
 
-    private static Pair advanceBulletPath(String direction, int x, int y) {
+    private static Pair getAdvanceCoordinates(String direction) {
+        int delta_x = 0, delta_y = 0;
         switch (direction) {
-            case "up" -> y--;
-            case "down" -> y++;
-            case "left" -> x--;
-            case "right" -> x++;
+            case "up" -> delta_y = -1;
+            case "down" -> delta_y = 1;
+            case "left" -> delta_x = -1;
+            case "right" -> delta_x = 1;
         }
-        return new Pair(x, y);
+        return new Pair(delta_x, delta_y);
     }
 
     public static Player getPlayerAt(int x, int y) {
