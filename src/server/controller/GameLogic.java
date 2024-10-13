@@ -4,18 +4,19 @@ package server.controller;
 import server.Server;
 import server.model.General;
 import server.model.Pair;
-import server.model.ServerPlayer;
+import server.model.Player;
+import server.threads.ClientHandler;
 
 import java.util.*;
 
 
 public class GameLogic {
-    public static HashMap<String, ServerPlayer> players = new HashMap<>();
+    public static HashMap<String, Player> players = new HashMap<>();
 
-    public synchronized static ServerPlayer addPlayerToGame(String name) {
+    public synchronized static Player addPlayerToGame(String name, ClientHandler clientHandler) {
         Pair pair = getRandomFreePosition();
         System.out.println("[SERVER] Player added at position X: " + pair.getX() + " Y: " + pair.getY());
-        ServerPlayer player = new ServerPlayer(name, pair);
+        Player player = new Player(name, pair, clientHandler);
         players.put(name, player);
         return player;
     }
@@ -26,11 +27,11 @@ public class GameLogic {
 
     public static void addTestPlayers() {
         Pair pair = getRandomFreePosition();
-        ServerPlayer test = new ServerPlayer("test", pair);
+        Player test = new Player("test", pair);
         players.put("test", test);
 
         pair = getRandomFreePosition();
-        ServerPlayer test2 = new ServerPlayer("test2", pair);
+        Player test2 = new Player("test2", pair);
         players.put("test2", test2);
     }
 
@@ -48,7 +49,7 @@ public class GameLogic {
             if (General.board[y].charAt(x) == ' ') // er det gulv ?
             {
                 foundfreepos = true;
-                for (ServerPlayer p : players.values()) {
+                for (Player p : players.values()) {
                     if (p.getXpos() == x && p.getYpos() == y) //pladsen optaget af en anden
                         foundfreepos = false;
                 }
@@ -60,7 +61,7 @@ public class GameLogic {
     }
 
     public synchronized static void updatePlayer(String name, int delta_x, int delta_y, String direction) {
-        ServerPlayer player = players.get(name);
+        Player player = players.get(name);
         if (player == null) {
             System.out.println("No player to update");
             return;
@@ -73,7 +74,7 @@ public class GameLogic {
             Server.sendUpdateToAll("moveplayer/" + x + "," + y + "," + x + "," + y + "," + player.getDirection() + "," + player.getPoint() + "," + player.getName());
         } else {
             // collision detection
-            ServerPlayer otherPlayer = getPlayerAt(x + delta_x, y + delta_y);
+            Player otherPlayer = getPlayerAt(x + delta_x, y + delta_y);
             if (otherPlayer != null) {
                 player.addPoints(10);
                 //update the other player
@@ -98,7 +99,7 @@ public class GameLogic {
     }
 
     public synchronized static void fireWeapon(String name) {
-        ServerPlayer player = players.get(name);
+        Player player = players.get(name);
         if (player == null) {
             System.out.println("No player like that exists");
             return;
@@ -112,7 +113,7 @@ public class GameLogic {
         Pair cur = advanceBulletPath(direction, player.getXpos(), player.getYpos());
 
         while (General.board[cur.getY()].charAt(cur.getX()) != 'w') {
-            ServerPlayer otherPlayer = getPlayerAt(cur.getX(), cur.getY());
+            Player otherPlayer = getPlayerAt(cur.getX(), cur.getY());
             if (otherPlayer != null) {
                 player.addPoints(50);
                 otherPlayer.addPoints(-50);
@@ -142,8 +143,8 @@ public class GameLogic {
         return new Pair(x, y);
     }
 
-    public static ServerPlayer getPlayerAt(int x, int y) {
-        for (ServerPlayer p : players.values()) {
+    public static Player getPlayerAt(int x, int y) {
+        for (Player p : players.values()) {
             if (p.getXpos() == x && p.getYpos() == y) {
                 return p;
             }
@@ -152,19 +153,19 @@ public class GameLogic {
     }
 
     private static void resetPlayerScores() {
-        for (ServerPlayer player : players.values()) {
+        for (Player player : players.values()) {
             player.resetPoint();
         }
     }
 
-    public static List<ServerPlayer> getCurrentPlayers() {
+    public static List<Player> getCurrentPlayers() {
         return new ArrayList<>(players.values());
     }
     public static Set<String> getPlayerNames() {
         return new HashSet<>(players.keySet());
     }
 
-    public static ServerPlayer getPlayer(String name) {
+    public static Player getPlayer(String name) {
         return players.get(name);
     }
 }

@@ -1,12 +1,24 @@
 package server.model;
 
-public class ServerPlayer {
+import server.threads.ClientHandler;
+
+public class Player {
     private final String name;
     private Pair location;
     private int point;
     private String direction;
+    private ClientHandler clientHandler;
 
-    public ServerPlayer(String name, Pair loc) {
+    public Player(String name, Pair loc, ClientHandler clientHandler) {
+        this.name = name;
+        this.location = loc;
+        this.direction = getRandomDirection();
+        this.point = 0;
+        this.clientHandler = clientHandler;
+        clientHandler.setPlayer(this);
+    }
+
+    public Player(String name, Pair loc) {
         this.name = name;
         this.location = loc;
         this.direction = getRandomDirection();

@@ -30,9 +30,10 @@ public class Server {
 					System.out.println("[SERVER] Connection failed");
                 }
 				if (connectionSocket != null) {
-					addClient(new ClientHandler(connectionSocket));
+					ClientHandler clientHandler = new ClientHandler(connectionSocket);
+					addClient(clientHandler);
 					System.out.println("[SERVER] Connection accepted.");
-					(new ServerThread(connectionSocket)).start();
+					(new ServerThread(connectionSocket, clientHandler)).start();
 				}
 			}
 		});

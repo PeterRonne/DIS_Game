@@ -2,7 +2,7 @@ package server.threads;
 
 import server.controller.GameLogic;
 import server.Server;
-import server.model.ServerPlayer;
+import server.model.Player;
 
 import java.net.*;
 import java.io.*;
@@ -11,9 +11,11 @@ import java.util.Set;
 
 public class ServerThread extends Thread {
     private final Socket connSocket;
+    private final ClientHandler clientHandler;
 
-    public ServerThread(Socket connSocket) {
+    public ServerThread(Socket connSocket, ClientHandler clientHandler) {
         this.connSocket = connSocket;
+        this.clientHandler = clientHandler;
     }
 
     public void run() {
@@ -29,8 +31,8 @@ public class ServerThread extends Thread {
                 switch (request) {
                     case "gamestate": {
                         StringBuilder builder = new StringBuilder();
-                        List<ServerPlayer> players = GameLogic.getCurrentPlayers();
-                        for (ServerPlayer player : players) {
+                        List<Player> players = GameLogic.getCurrentPlayers();
+                        for (Player player : players) {
                             builder.append(player.toString()).append("#");
                         }
                         outToClient.writeBytes("gamestate/" + builder + '\n');
@@ -45,17 +47,17 @@ public class ServerThread extends Thread {
                     break;
                     case "addplayer": {
                         String name = messageSplit[1];
-                        ServerPlayer player = GameLogic.addPlayerToGame(name);
+                        Player player = GameLogic.addPlayerToGame(name, clientHandler);
                         System.out.println("[SERVER] Added new player, " + name + "\n");
                         Server.sendUpdateToAll("addplayer/" + player);
                     }
                     break;
                     case "removeplayer": {
                         String name = messageSplit[1];
-                        ServerPlayer player = GameLogic.getPlayer(name);
-                        int delta_x = player.getXpos();
-                        int delta_y = player.getYpos();
-                        Server.sendUpdateToAll("removeplayer/" + delta_x + "," + delta_y + "," + name);
+                        Player player = GameLogic.getPlayer(name);
+                        int x = player.getXpos();
+                        int y = player.getYpos();
+                        Server.sendUpdateToAll("removeplayer/" + x + "," + y + "," + name);
                         GameLogic.removePlayer(name);
                         Server.removeClient(connSocket);
                         connSocket.close();
@@ -83,7 +85,10 @@ public class ServerThread extends Thread {
             System.out.println("Client disconnected suddenly");
         } finally {
             Server.removeClient(connSocket);
-//            GameLogic.removePlayer();
+            Player player = clientHandler.getPlayer();
+            String name = player.getName();
+            GameLogic.removePlayer(name);
+            Server.sendUpdateToAll("removeplayer/" + player.getXpos() + "," + player.getYpos() + "," + name);
             try {
                 connSocket.close();
             } catch (IOException e) {
