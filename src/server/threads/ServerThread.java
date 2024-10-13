@@ -83,6 +83,7 @@ public class ServerThread extends Thread {
             System.out.println("Client disconnected suddenly");
         } finally {
             Server.removeClient(connSocket);
+//            GameLogic.removePlayer();
             try {
                 connSocket.close();
             } catch (IOException e) {

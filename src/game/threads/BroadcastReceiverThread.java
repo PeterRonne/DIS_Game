@@ -25,7 +25,6 @@ public class BroadcastReceiverThread extends Thread {
 
             WelcomeScreen.updateConnectionInfo(receivedMessage[0], receivedMessage[1]);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

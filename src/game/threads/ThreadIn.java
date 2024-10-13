@@ -22,10 +22,13 @@ public class ThreadIn extends Thread {
 
     @Override
     public void run() {
-        while(!clientSocket.isClosed()) {
+        while (!clientSocket.isClosed()) {
             try {
                 String serverMessage = inFromServer.readLine();
-                GameManager.update(serverMessage);
+                String[] request = serverMessage.split("/");
+
+                if (GameManager.isGameStarted() || request[0].equals("sendplayers"))
+                    GameManager.update(request);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

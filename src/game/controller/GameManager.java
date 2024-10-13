@@ -13,12 +13,21 @@ public class GameManager {
     private static Socket clientSocket;
     private static DataOutputStream outToServer;
     private static String playerName;
+    public static boolean gameStarted;
     private static String CONNECTION_ADDRESS;
     private static int PORT;
     private static final HashMap<String, Integer> players = new HashMap<>();
 
-    public static void setConnectionAddress(String adress) {
-        CONNECTION_ADDRESS = adress;
+    public static boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public static void startGame() {
+        gameStarted = true;
+    }
+
+    public static void setConnectionAddress(String address) {
+        CONNECTION_ADDRESS = address;
     }
 
     public static void setPort(int port) {
@@ -31,6 +40,7 @@ public class GameManager {
 
     public static boolean initializeConnection() {
         try {
+            gameStarted = false;
             clientSocket = new Socket(CONNECTION_ADDRESS, PORT);
             GameManager.outToServer = new DataOutputStream(clientSocket.getOutputStream());
             startInThread();
@@ -99,17 +109,17 @@ public class GameManager {
         }
     }
 
-    public static void update(String serverMessage) {
-        System.out.println(serverMessage);
+    public static void update(String[] serverMessage) {
+        System.out.println(Arrays.toString(serverMessage));
         if (serverMessage == null) return;
-        String[] serverMessageSplit = serverMessage.split("/");
-        String update = serverMessageSplit[0];
+
+        String update = serverMessage[0];
 
         switch (update) {
             case "gamestate": {
                 System.out.println("Current gamestate received");
-                if (serverMessageSplit.length > 1) {
-                    String[] incomingPlayers = serverMessageSplit[1].split("#");
+                if (serverMessage.length > 1) {
+                    String[] incomingPlayers = serverMessage[1].split("#");
                     for (String player : incomingPlayers) {
                         String[] playerAttributes = player.split(",");
                         String name = playerAttributes[0];
@@ -125,8 +135,8 @@ public class GameManager {
             }
             break;
             case "sendplayers": {
-                if (serverMessageSplit.length > 1) {
-                    String[] incomingPlayerNames = serverMessageSplit[1].split("#");
+                if (serverMessage.length > 1) {
+                    String[] incomingPlayerNames = serverMessage[1].split("#");
                     for (String incomingPlayerName : incomingPlayerNames) {
                         players.put(incomingPlayerName, 0);
                     }
@@ -135,7 +145,7 @@ public class GameManager {
             break;
             case "addplayer": {
                 System.out.println("Player added");
-                String[] player = serverMessageSplit[1].split(",");
+                String[] player = serverMessage[1].split(",");
                 String name = player[0];
                 players.put(name, 0); // Player name and initial score
                 int x_position = Integer.parseInt(player[1]);
@@ -147,7 +157,7 @@ public class GameManager {
             break;
             case "removeplayer": {
                 System.out.println("Player removed");
-                String[] playerInfo = serverMessageSplit[1].split(",");
+                String[] playerInfo = serverMessage[1].split(",");
                 int xPos = Integer.parseInt(playerInfo[0]);
                 int yPos = Integer.parseInt(playerInfo[1]);
                 String name = playerInfo[2];
@@ -159,7 +169,7 @@ public class GameManager {
             break;
             case "moveplayer": {
                 System.out.println("Player moved");
-                String[] updatedMoves = serverMessageSplit[1].split(",");
+                String[] updatedMoves = serverMessage[1].split(",");
                 int old_x_position = Integer.parseInt(updatedMoves[0]);
                 int old_y_position = Integer.parseInt(updatedMoves[1]);
                 Pair oldpos = new Pair(old_x_position, old_y_position);
@@ -175,17 +185,17 @@ public class GameManager {
             break;
             case "fireweapon": {
                 System.out.println("Player shoots");
-                if (serverMessageSplit.length > 2) {
-                    String direction = serverMessageSplit[1];
-                    String[] pairStrings = serverMessageSplit[2].split("#");
+                if (serverMessage.length > 2) {
+                    String direction = serverMessage[1];
+                    String[] pairStrings = serverMessage[2].split("#");
                     Pair[] pairs = new Pair[pairStrings.length];
                     for (int i = 0; i < pairStrings.length; i++) {
                         String[] attr = pairStrings[i].split(",");
                         pairs[i] = new Pair(Integer.parseInt(attr[0]), Integer.parseInt(attr[1]));
                     }
                     Gui.fireWeapon(pairs, direction);
-                    if (serverMessageSplit.length > 3) {
-                        String[] playersHit = serverMessageSplit[3].split("#");
+                    if (serverMessage.length > 3) {
+                        String[] playersHit = serverMessage[3].split("#");
                         for (String player : playersHit) {
                             String[] playerAttributes = player.split(",");
                             String name = playerAttributes[0];
@@ -202,7 +212,7 @@ public class GameManager {
             }
             break;
             case "winnerfound": {
-                String winner = serverMessageSplit[1];
+                String winner = serverMessage[1];
                 Gui.showWinnerMessage(winner);
             }
             break;

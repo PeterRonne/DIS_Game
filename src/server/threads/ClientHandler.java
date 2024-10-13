@@ -7,6 +7,7 @@ import java.net.Socket;
 public class ClientHandler {
     private final Socket connectionSocket;
     private DataOutputStream dataOutputStream;
+    private String playerName;
 
     public ClientHandler(Socket connectionSocket) {
         this.connectionSocket = connectionSocket;
